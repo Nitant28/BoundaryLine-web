@@ -70,7 +70,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   border-bottom:1px solid transparent;
 }
 #navbar.is-scrolled{ height:64px; background:rgba(11,11,11,.82); backdrop-filter:blur(18px); border-color:rgba(217,217,214,.1); }
-.nav-brand{ justify-self:start; }
+.nav-brand{ justify-self:start; display:inline-flex; align-items:center; }
 .brand-logo{ display:block; height:auto; width:auto; max-width:100%; }
 .nav-logo{ height:36px; width:auto; max-width:160px; object-fit:contain; }
 @media (min-width:768px){ .nav-logo{ height:42px; max-width:190px; } }
@@ -87,10 +87,54 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .nav-link::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:#fff; transition:width .35s var(--ease); }
 .nav-link:hover::after,.nav-link.is-active::after{ width:100%; }
 
-.mobile-menu{ position:fixed; inset:0; background:#0B0B0B; z-index:40; transform:translateY(-105%); transition:transform .6s var(--ease); display:flex; flex-direction:column; padding:100px var(--gutter) 40px; }
+.mobile-menu{
+  position:fixed; inset:0; background:#0B0B0B; z-index:40;
+  transform:translateY(-105%); transition:transform .6s var(--ease);
+  display:flex; flex-direction:column; align-items:stretch;
+  padding:0; overflow-y:auto;
+}
 .mobile-menu.is-open{ transform:translateY(0); }
-.mobile-menu a{ font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:clamp(2.2rem,8vw,3.4rem); letter-spacing:-0.02em; line-height:1.15; }
-.hamburger{ width:26px; height:14px; position:relative; }
+.mobile-menu-inner{
+  width:100%; max-width:var(--site); margin:0 auto;
+  padding:clamp(96px,18vw,120px) clamp(24px,5vw,48px) clamp(40px,8vw,64px);
+  display:flex; flex-direction:column; justify-content:center;
+  flex:1; min-height:100%; gap:clamp(36px,6vw,56px);
+  box-sizing:border-box;
+}
+.mobile-menu-nav{
+  display:flex; flex-direction:column;
+  gap:clamp(6px,1.2vw,12px);
+  align-items:flex-start;
+}
+.mobile-menu-link{
+  font-family:'Oswald',sans-serif; text-transform:uppercase;
+  font-size:clamp(2rem,7.5vw,3.2rem); font-weight:600;
+  letter-spacing:0.02em; line-height:1.2;
+  color:rgba(255,255,255,.92);
+  padding:clamp(6px,1vw,10px) 0;
+  display:inline-block;
+  transition:color .3s var(--ease), letter-spacing .35s var(--ease), opacity .3s;
+  position:relative;
+}
+.mobile-menu-link:hover,
+.mobile-menu-link:focus-visible{
+  color:#fff; letter-spacing:0.06em; outline:none;
+}
+.mobile-menu-cta{
+  padding-top:clamp(8px,2vw,16px);
+  border-top:1px solid rgba(255,255,255,.1);
+  display:flex; align-items:center;
+}
+.mobile-menu-btn{
+  margin-top:clamp(20px,4vw,28px);
+  padding:14px 28px;
+  letter-spacing:.2em;
+}
+.hamburger{
+  width:26px; height:14px; position:relative; flex-shrink:0;
+  display:block; background:transparent; border:0; padding:0; cursor:pointer;
+  z-index:60;
+}
 .hamburger span{ position:absolute; left:0; width:100%; height:1.5px; background:#fff; transition:transform .3s,opacity .3s,top .3s; }
 .hamburger span:nth-child(1){ top:0; } .hamburger span:nth-child(2){ top:6px; } .hamburger span:nth-child(3){ top:12px; }
 .hamburger.is-open span:nth-child(1){ top:6px; transform:rotate(45deg); }
@@ -406,6 +450,104 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .mission .icon-draw, .bg-white .icon-draw{ color:#2c2c2c; }
 .mission .why-card:hover .icon-draw, .bg-white .icon-tile:hover .icon-draw{ color:#fff; }
 
+/* ---------- Why section — premium micro-interactions (hover/scroll only) ---------- */
+.why-feature-icon .icon-draw path,
+.why-feature-icon .icon-draw circle,
+.why-feature-icon .icon-draw polyline,
+.why-feature-icon .icon-draw line,
+.why-feature-icon .icon-draw rect,
+.why-feature-icon .icon-draw ellipse{ stroke-width:2; }
+.why-feature-icon .icon-draw .icon-accent{ stroke-width:1.6; }
+
+.why-card{
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s cubic-bezier(.2,.8,.2,1);
+}
+.why-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 22px 36px -22px rgba(11,11,11,.22);
+}
+.why-num{ transition:opacity .4s cubic-bezier(.2,.8,.2,1); }
+.why-card:hover .why-num{ opacity:.7; }
+.why-title{ transition:transform .4s cubic-bezier(.2,.8,.2,1); }
+.why-card:hover .why-title{ transform:translateY(-2px); }
+
+.why-feature-icon .icon-draw{
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), filter .4s ease, color .5s var(--ease);
+  will-change:transform;
+}
+.why-card:hover .why-feature-icon .icon-draw{ transform:scale(1.06); }
+
+/* 01 Trophy — spring tilt + faint golden glow + sparkle */
+.why-card:hover .icon-draw[data-icon="trophy"]{
+  transform:rotate(7deg) scale(1.08);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), filter .4s ease, color .5s var(--ease);
+  filter:
+    drop-shadow(0 0 3px rgba(201,162,39,.75))
+    drop-shadow(0 0 9px rgba(201,162,39,.5))
+    drop-shadow(0 0 16px rgba(201,162,39,.22));
+}
+.why-card:hover .why-feature-icon:has(.icon-draw[data-icon="trophy"]){
+  box-shadow:
+    0 0 0 1px rgba(201,162,39,.18),
+    0 0 18px rgba(201,162,39,.16);
+}
+.icon-draw[data-icon="trophy"]::before,
+.icon-draw[data-icon="trophy"]::after{
+  content:''; position:absolute; width:4px; height:4px; border-radius:50%;
+  background:#C9A227;
+  box-shadow:0 0 7px rgba(201,162,39,.9);
+  opacity:0; pointer-events:none;
+}
+.icon-draw[data-icon="trophy"]::before{ top:-2px; left:2px; }
+.icon-draw[data-icon="trophy"]::after{ top:1px; right:-2px; }
+.why-card:hover .icon-draw[data-icon="trophy"]::before{ animation:sparkle .5s ease-out forwards; }
+.why-card:hover .icon-draw[data-icon="trophy"]::after{ animation:sparkle .5s ease-out .12s forwards; }
+@keyframes sparkle{
+  0%{ opacity:0; transform:scale(.2); }
+  40%{ opacity:1; transform:scale(1); }
+  100%{ opacity:0; transform:scale(1.5) translateY(-3px); }
+}
+
+/* 02 Calendar — slight tilt, corner flip, soft shadow */
+.why-card:hover .icon-draw[data-icon="calendar"]{
+  transform:rotate(-3deg) scale(1.05);
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,.3));
+}
+.icon-draw[data-icon="calendar"] .ic-flip{
+  transform-box:fill-box; transform-origin:left bottom;
+  transition:transform .4s ease-out;
+}
+.why-card:hover .icon-draw[data-icon="calendar"] .ic-flip{ transform:rotate(-14deg); }
+
+/* 03 Network — independent node pulses, 2px lift */
+.why-card:hover .icon-draw[data-icon="network"]{ transform:translateY(-2px) scale(1.04); }
+.icon-draw[data-icon="network"] circle{ transform-box:fill-box; transform-origin:center; }
+.why-card:hover .icon-draw[data-icon="network"] circle:nth-of-type(1){ animation:node-pulse 1.5s ease-in-out infinite; }
+.why-card:hover .icon-draw[data-icon="network"] circle:nth-of-type(2){ animation:node-pulse 1.5s ease-in-out .2s infinite; }
+.why-card:hover .icon-draw[data-icon="network"] circle:nth-of-type(3){ animation:node-pulse 1.5s ease-in-out .4s infinite; }
+@keyframes node-pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.14); } }
+
+/* 04 Globe — meridians spin while hovered, subtle glow */
+.why-card:hover .icon-draw[data-icon="globe"]{
+  transform:scale(1.05);
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.22));
+}
+.icon-draw[data-icon="globe"] .ic-spin{ transform-box:view-box; transform-origin:50% 50%; }
+.why-card:hover .icon-draw[data-icon="globe"] .ic-spin{ animation:globe-spin 2s linear infinite; }
+@keyframes globe-spin{ to{ transform:rotate(360deg); } }
+
+/* Button — border draws in, arrow slides (same button, same colors) */
+.btn{ position:relative; }
+.btn svg{ transition:transform .35s var(--ease); }
+.btn:hover svg{ transform:translateX(6px); }
+.btn-ink::before, .btn-ink::after{
+  content:''; position:absolute; left:0; width:100%; height:1px; background:#0B0B0B;
+  transform:scaleX(0); transition:transform .45s cubic-bezier(.2,.8,.2,1); pointer-events:none;
+}
+.btn-ink::before{ top:-1px; transform-origin:left center; }
+.btn-ink::after{ bottom:-1px; transform-origin:right center; }
+.btn-ink:hover::before, .btn-ink:hover::after{ transform:scaleX(1); }
+
 .vision-frame{
   position:relative; overflow:hidden;
   height:clamp(240px,32vw,360px);
@@ -422,6 +564,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   [data-reveal]{ opacity:1; transform:none; }
   body{ cursor:auto; }
   .preloader{ display:none!important; }
+  /* Fade-only: no rotations, scaling, or lifts */
+  .why-card:hover,
+  .why-card:hover .why-title,
+  .why-card:hover .icon-draw,
+  .why-card:hover .icon-draw *,
+  .btn:hover svg{ transform:none!important; filter:none!important; }
 }
 </style>
 </head>
@@ -448,13 +596,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   <div class="nav-links t-mono"><a href="index.html" class="nav-link hover-target is-active">HOME</a><a href="about.html" class="nav-link hover-target ">ABOUT</a><a href="gallery.html" class="nav-link hover-target ">GALLERY</a><a href="news.html" class="nav-link hover-target ">NEWS</a><a href="index.html#testimonials" class="nav-link hover-target ">STORIES</a><a href="contact.html" class="nav-link hover-target ">CONTACT</a></div>
   <div class="nav-actions">
     <a href="contact.html" class="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-5 hover-target">CONTACT US</a>
-    <button id="burger" class="lg:hidden hamburger hover-target" style="display:block" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button id="burger" class="hamburger hover-target" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<style>@media(min-width:1100px){ #burger{ display:none!important; } }</style>
 <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
-  <div class="flex flex-col gap-1"><a href="index.html" class="hover-target py-1">HOME</a><a href="about.html" class="hover-target py-1">ABOUT</a><a href="gallery.html" class="hover-target py-1">GALLERY</a><a href="news.html" class="hover-target py-1">NEWS</a><a href="index.html#testimonials" class="hover-target py-1">STORIES</a><a href="contact.html" class="hover-target py-1">CONTACT</a></div>
-  <a href="contact.html" class="btn btn-ghost w-fit mt-10 hover-target">CONTACT US</a>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav" aria-label="Primary">
+      <a href="index.html" class="mobile-menu-link hover-target">HOME</a><a href="about.html" class="mobile-menu-link hover-target">ABOUT</a><a href="gallery.html" class="mobile-menu-link hover-target">GALLERY</a><a href="news.html" class="mobile-menu-link hover-target">NEWS</a><a href="index.html#testimonials" class="mobile-menu-link hover-target">STORIES</a><a href="contact.html" class="mobile-menu-link hover-target">CONTACT</a>
+    </nav>
+    <div class="mobile-menu-cta">
+      <a href="contact.html" class="btn btn-ghost mobile-menu-btn hover-target">CONTACT US</a>
+    </div>
+  </div>
 </div>
 <main id="main">
 <section id="hero" class="hero">
@@ -512,33 +665,33 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
       <div class="border-t border-black/10 pt-5 why-card">
         <div class="why-feature-icon"><span class="icon-draw" data-icon="trophy"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10.5 5.5h11v6.5a5.5 5.5 0 0 1-11 0V5.5z"/><path d="M10.5 7.5H6.8a.8.8 0 0 0-.8.8c0 2.6 1.9 4.7 4.5 5"/><path d="M21.5 7.5h3.7a.8.8 0 0 1 .8.8c0 2.6-1.9 4.7-4.5 5"/><path d="M16 17.5v3.5"/><path d="M12.5 25.5h7"/><path d="M13.5 21h5l1 4.5h-7l1-4.5z"/><path class="icon-accent" d="M14 9l1.4 1.4L18 7.8"/></svg></span></div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">01</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">01</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">FULL ECOSYSTEM</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">FULL ECOSYSTEM</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">Most organizers run tournaments. We build ecosystems: the full journey, not isolated events.</p>
       </div>
       <div class="border-t border-black/10 pt-5 why-card">
-        <div class="why-feature-icon"><span class="icon-draw" data-icon="calendar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7.5" width="22" height="19" rx="1.5"/><path d="M5 13h22"/><path d="M11 4.5v5"/><path d="M21 4.5v5"/><path class="icon-accent" d="M9.5 17.5h3"/><path class="icon-accent" d="M14.5 17.5h3"/><path class="icon-accent" d="M19.5 17.5h3"/><path class="icon-accent" d="M9.5 22h3"/><path d="M14.5 22h3"/></svg></span></div>
+        <div class="why-feature-icon"><span class="icon-draw" data-icon="calendar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7.5" width="22" height="19" rx="1.5"/><path d="M5 13h22"/><path d="M11 4.5v5"/><path d="M21 4.5v5"/><path class="icon-accent" d="M9.5 17.5h3"/><path class="icon-accent" d="M14.5 17.5h3"/><path class="icon-accent" d="M19.5 17.5h3"/><path class="icon-accent" d="M9.5 22h3"/><path d="M14.5 22h3"/><path class="ic-flip" d="M22 26.5l5-5"/></svg></span></div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">02</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">02</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">ALWAYS A NEXT MATCH</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">ALWAYS A NEXT MATCH</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">Players never have to wonder where to play next. We answer that every week.</p>
       </div>
       <div class="border-t border-black/10 pt-5 why-card">
         <div class="why-feature-icon"><span class="icon-draw" data-icon="network"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6.5" r="3"/><circle cx="6.5" cy="24" r="3"/><circle cx="25.5" cy="24" r="3"/><path d="M16 9.5v5.5"/><path d="M16 15l-7.8 6.5"/><path d="M16 15l7.8 6.5"/><circle class="icon-accent" cx="16" cy="15" r="1.2"/></svg></span></div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">03</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">03</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">MATCHED FAIRLY</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">MATCHED FAIRLY</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">We connect teams by skill, format, availability, ground preference, and competitive intensity.</p>
       </div>
       <div class="border-t border-black/10 pt-5 why-card">
-        <div class="why-feature-icon"><span class="icon-draw" data-icon="globe"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5"/><path d="M5.5 16h21"/><ellipse cx="16" cy="16" rx="4.8" ry="10.5"/><path class="icon-accent" d="M7.5 10.5c2.4 1.4 5.3 2.2 8.5 2.2s6.1-.8 8.5-2.2"/><path class="icon-accent" d="M7.5 21.5c2.4-1.4 5.3-2.2 8.5-2.2s6.1.8 8.5 2.2"/></svg></span></div>
+        <div class="why-feature-icon"><span class="icon-draw" data-icon="globe"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5"/><path d="M5.5 16h21"/><g class="ic-spin"><ellipse cx="16" cy="16" rx="4.8" ry="10.5"/></g><path class="icon-accent" d="M7.5 10.5c2.4 1.4 5.3 2.2 8.5 2.2s6.1-.8 8.5-2.2"/><path class="icon-accent" d="M7.5 21.5c2.4-1.4 5.3-2.2 8.5-2.2s6.1.8 8.5 2.2"/></svg></span></div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">04</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">04</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">STARTING IN MUMBAI</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">STARTING IN MUMBAI</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">Built on real matches across the city, with a clear path to scale across India.</p>
       </div></div>
   </div>
@@ -805,59 +958,29 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
         <p class="t-mono text-[11px] text-pitch-gray" style="letter-spacing:.16em">THE PEOPLE<br>BEHIND BOUNDARYLINE</p>
       </div>
       <div class="lg:w-[72%] grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4" data-stagger>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop" alt="Shardul Bhande" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">SHARDUL BHANDE</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Co-Founder</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">SHARDUL BHANDE</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">CO-FOUNDER</p>
       </div>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=500&auto=format&fit=crop" alt="Devavrat Kelkar" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">DEVAVRAT KELKAR</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Co-Founder</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">DEVAVRAT KELKAR</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">CO-FOUNDER</p>
       </div>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=500&auto=format&fit=crop" alt="Aditya Manjere" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">ADITYA MANJERE</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Match Official, Operations</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">ADITYA MANJERE</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">MATCH OFFICIAL, OPERATIONS</p>
       </div>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500&auto=format&fit=crop" alt="Suneet Yadav" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">SUNEET YADAV</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Operations & Match Management</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">SUNEET YADAV</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">OPERATIONS & MATCH MANAGEMENT</p>
       </div>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=500&auto=format&fit=crop" alt="Arpit Pandey" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">ARPIT PANDEY</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Match Management</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">ARPIT PANDEY</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">MATCH MANAGEMENT</p>
       </div>
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=500&auto=format&fit=crop" alt="Ashish Yadav" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">ASHISH YADAV</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">Match Management</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">ASHISH YADAV</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">MATCH MANAGEMENT</p>
       </div></div>
     </div>
   </div>
@@ -951,7 +1074,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
           <li><a href="mailto:info.boundaryline@gmail.com" class="hover:text-white hover-target">info.boundaryline@gmail.com</a></li>
           <li><a href="tel:+917506849705" class="hover:text-white hover-target">7506849705</a></li>
           <li><a href="tel:+918424028435" class="hover:text-white hover-target">8424028435</a></li>
-          <li>Mumbai, India</li>
+          <li>Nandanvan Complex, Brahmand Thane W 400607</li>
         </ul>
         <div class="flex gap-5 mt-8">
           <a href="#" class="hover-target" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
@@ -1240,7 +1363,10 @@ tailwind.config = {
         once: true,
         onEnter: () => {
           draw(false);
-          gsap.fromTo(wrap, { scale: 0.85, rotate: -4 }, { scale: 1, rotate: 0, duration: 0.9, ease: 'back.out(1.6)' });
+          // Why-section icons get their own staggered entrance; clearProps so CSS hover transforms work after
+          if (!wrap.closest('.why-features')) {
+            gsap.fromTo(wrap, { scale: 0.85, rotate: -4 }, { scale: 1, rotate: 0, duration: 0.9, ease: 'back.out(1.6)', clearProps: 'transform' });
+          }
         },
       });
 
@@ -1253,6 +1379,21 @@ tailwind.config = {
         last = now;
         draw(true);
       });
+    });
+
+    // Why section: icons rise in with a 120ms stagger when the grid enters view
+    gsap.utils.toArray('.why-features').forEach((grid) => {
+      const tiles = grid.querySelectorAll('.why-feature-icon');
+      if (!tiles.length) return;
+      gsap.fromTo(tiles,
+        { opacity: 0, scale: 0.7, y: 25 },
+        {
+          opacity: 1, scale: 1, y: 0,
+          duration: 0.65, ease: 'power3.out', stagger: 0.12,
+          clearProps: 'all',
+          scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
+        }
+      );
     });
   }
   if (!reduce) {

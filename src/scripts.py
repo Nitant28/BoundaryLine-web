@@ -227,7 +227,10 @@ SCRIPT_BLOCK = r"""
         once: true,
         onEnter: () => {
           draw(false);
-          gsap.fromTo(wrap, { scale: 0.85, rotate: -4 }, { scale: 1, rotate: 0, duration: 0.9, ease: 'back.out(1.6)' });
+          // Why-section icons get their own staggered entrance; clearProps so CSS hover transforms work after
+          if (!wrap.closest('.why-features')) {
+            gsap.fromTo(wrap, { scale: 0.85, rotate: -4 }, { scale: 1, rotate: 0, duration: 0.9, ease: 'back.out(1.6)', clearProps: 'transform' });
+          }
         },
       });
 
@@ -240,6 +243,21 @@ SCRIPT_BLOCK = r"""
         last = now;
         draw(true);
       });
+    });
+
+    // Why section: icons rise in with a 120ms stagger when the grid enters view
+    gsap.utils.toArray('.why-features').forEach((grid) => {
+      const tiles = grid.querySelectorAll('.why-feature-icon');
+      if (!tiles.length) return;
+      gsap.fromTo(tiles,
+        { opacity: 0, scale: 0.7, y: 25 },
+        {
+          opacity: 1, scale: 1, y: 0,
+          duration: 0.65, ease: 'power3.out', stagger: 0.12,
+          clearProps: 'all',
+          scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
+        }
+      );
     });
   }
   if (!reduce) {

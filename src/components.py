@@ -21,9 +21,9 @@ def logo_img(variant="light", cls="", alt="Boundaryline", el_id=""):
 def icon_svg(name):
     icons = {
         "trophy": """<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10.5 5.5h11v6.5a5.5 5.5 0 0 1-11 0V5.5z"/><path d="M10.5 7.5H6.8a.8.8 0 0 0-.8.8c0 2.6 1.9 4.7 4.5 5"/><path d="M21.5 7.5h3.7a.8.8 0 0 1 .8.8c0 2.6-1.9 4.7-4.5 5"/><path d="M16 17.5v3.5"/><path d="M12.5 25.5h7"/><path d="M13.5 21h5l1 4.5h-7l1-4.5z"/><path class="icon-accent" d="M14 9l1.4 1.4L18 7.8"/></svg>""",
-        "calendar": """<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7.5" width="22" height="19" rx="1.5"/><path d="M5 13h22"/><path d="M11 4.5v5"/><path d="M21 4.5v5"/><path class="icon-accent" d="M9.5 17.5h3"/><path class="icon-accent" d="M14.5 17.5h3"/><path class="icon-accent" d="M19.5 17.5h3"/><path class="icon-accent" d="M9.5 22h3"/><path d="M14.5 22h3"/></svg>""",
+        "calendar": """<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7.5" width="22" height="19" rx="1.5"/><path d="M5 13h22"/><path d="M11 4.5v5"/><path d="M21 4.5v5"/><path class="icon-accent" d="M9.5 17.5h3"/><path class="icon-accent" d="M14.5 17.5h3"/><path class="icon-accent" d="M19.5 17.5h3"/><path class="icon-accent" d="M9.5 22h3"/><path d="M14.5 22h3"/><path class="ic-flip" d="M22 26.5l5-5"/></svg>""",
         "network": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6.5" r="3"/><circle cx="6.5" cy="24" r="3"/><circle cx="25.5" cy="24" r="3"/><path d="M16 9.5v5.5"/><path d="M16 15l-7.8 6.5"/><path d="M16 15l7.8 6.5"/><circle class="icon-accent" cx="16" cy="15" r="1.2"/></svg>""",
-        "globe": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5"/><path d="M5.5 16h21"/><ellipse cx="16" cy="16" rx="4.8" ry="10.5"/><path class="icon-accent" d="M7.5 10.5c2.4 1.4 5.3 2.2 8.5 2.2s6.1-.8 8.5-2.2"/><path class="icon-accent" d="M7.5 21.5c2.4-1.4 5.3-2.2 8.5-2.2s6.1.8 8.5 2.2"/></svg>""",
+        "globe": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5"/><path d="M5.5 16h21"/><g class="ic-spin"><ellipse cx="16" cy="16" rx="4.8" ry="10.5"/></g><path class="icon-accent" d="M7.5 10.5c2.4 1.4 5.3 2.2 8.5 2.2s6.1-.8 8.5-2.2"/><path class="icon-accent" d="M7.5 21.5c2.4-1.4 5.3-2.2 8.5-2.2s6.1.8 8.5 2.2"/></svg>""",
         "sun": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.2"/><path d="M16 4.5v3.2"/><path d="M16 24.3v3.2"/><path d="M4.5 16h3.2"/><path d="M24.3 16h3.2"/><path class="icon-accent" d="M7.9 7.9l2.2 2.2"/><path class="icon-accent" d="M21.9 21.9l2.2 2.2"/><path class="icon-accent" d="M24.1 7.9l-2.2 2.2"/><path class="icon-accent" d="M10.1 21.9l-2.2 2.2"/></svg>""",
         "users": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="10.5" r="3.8"/><path d="M4.5 25c1.4-4.4 4.1-6.7 7.5-6.7s6.1 2.3 7.5 6.7"/><circle class="icon-accent" cx="21.5" cy="11.5" r="3"/><path class="icon-accent" d="M21 18.5c3 0 5.4 2 6.5 5.8"/></svg>""",
         "zap": """<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M18 3.5L7.5 18.5H15l-1.5 10L24 13.5h-7.5l1.5-10z"/><path class="icon-accent" d="M23 5.5l3-1.5"/><path class="icon-accent" d="M25 9.5l2.5.5"/></svg>""",
@@ -78,7 +78,7 @@ def nav(active="home"):
         f'<a href="{h}" class="nav-link hover-target {"is-active" if k==active else ""}">{lab}</a>'
         for h, lab, k in links
     )
-    mobile = "".join(f'<a href="{h}" class="hover-target py-1">{lab}</a>' for h, lab, k in links)
+    mobile = "".join(f'<a href="{h}" class="mobile-menu-link hover-target">{lab}</a>' for h, lab, k in links)
     return f"""
 <nav id="navbar">
   <a href="index.html" class="nav-brand hover-target inline-flex items-center" aria-label="Boundaryline home">
@@ -87,13 +87,18 @@ def nav(active="home"):
   <div class="nav-links t-mono">{desktop}</div>
   <div class="nav-actions">
     <a href="contact.html" class="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-5 hover-target">CONTACT US</a>
-    <button id="burger" class="lg:hidden hamburger hover-target" style="display:block" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button id="burger" class="hamburger hover-target" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<style>@media(min-width:1100px){{ #burger{{ display:none!important; }} }}</style>
 <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
-  <div class="flex flex-col gap-1">{mobile}</div>
-  <a href="contact.html" class="btn btn-ghost w-fit mt-10 hover-target">CONTACT US</a>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav" aria-label="Primary">
+      {mobile}
+    </nav>
+    <div class="mobile-menu-cta">
+      <a href="contact.html" class="btn btn-ghost mobile-menu-btn hover-target">CONTACT US</a>
+    </div>
+  </div>
 </div>
 """
 
@@ -161,9 +166,9 @@ def why():
       <div class="border-t border-black/10 pt-5 why-card">
         <div class="why-feature-icon">{icon_svg(icon)}</div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">{num}</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">{num}</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">{title}</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">{title}</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">{copy}</p>
       </div>""" for icon, num, title, copy in WHY_POINTS)
     return f"""
@@ -344,14 +349,9 @@ def testimonials():
 
 def team():
     cards = "".join(f"""
-      <div class="relative group overflow-hidden hover-target bg-[#e8e8e4]">
-        <div class="aspect-[3/4] media-zoom relative">
-          <img src="{uns(m['id'], 500)}" alt="{m['name']}" class="img-cover img-mono" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-400">
-            <p class="text-white t-mono text-xs font-bold" style="letter-spacing:.12em">{m['name'].upper()}</p>
-            <p class="text-white/70 text-[10px] uppercase tracking-widest mt-1">{m['role']}</p>
-          </div>
-        </div>
+      <div class="border border-black/10 pt-5 pb-4 hover-target">
+        <p class="h-display text-2xl md:text-3xl mb-2 leading-tight">{m['name'].upper()}</p>
+        <p class="t-mono text-[10px] text-pitch-gray" style="letter-spacing:.14em">{m['role'].upper()}</p>
       </div>""" for m in STAFF)
     return f"""
 <section class="bg-chalk text-black section-pad">
@@ -438,7 +438,7 @@ def footer():
           <li><a href="mailto:info.boundaryline@gmail.com" class="hover:text-white hover-target">info.boundaryline@gmail.com</a></li>
           <li><a href="tel:+917506849705" class="hover:text-white hover-target">7506849705</a></li>
           <li><a href="tel:+918424028435" class="hover:text-white hover-target">8424028435</a></li>
-          <li>Mumbai, India</li>
+          <li>Nandanvan Complex, Brahmand Thane W 400607</li>
         </ul>
         <div class="flex gap-5 mt-8">
           <a href="#" class="hover-target" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
@@ -601,9 +601,9 @@ def about_page_body():
       <div class="border-t border-black/10 pt-5 why-card">
         <div class="why-feature-icon">{icon_svg(icon)}</div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
-          <span class="t-mono text-[10px]" style="letter-spacing:.18em">{num}</span>
+          <span class="t-mono text-[10px] why-num" style="letter-spacing:.18em">{num}</span>
         </div>
-        <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">{title}</h3>
+        <h3 class="t-mono text-xs font-bold mb-3 why-title" style="letter-spacing:.16em">{title}</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">{copy}</p>
       </div>""" for icon, num, title, copy in WHY_POINTS)
 
@@ -752,7 +752,7 @@ def contact_body():
             <a href="tel:+918424028435" class="hover-target hover:text-white block mt-1">8424028435</a>
           </span>
         </li>
-        <li class="flex gap-4"><i data-lucide="map-pin" class="w-5 h-5 text-white/40 shrink-0"></i>Mumbai, India</li>
+        <li class="flex gap-4"><i data-lucide="map-pin" class="w-5 h-5 text-white/40 shrink-0"></i>Nandanvan Complex, Brahmand Thane W 400607</li>
       </ul>
       <div class="flex gap-5">
         <a href="#" class="hover-target" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
