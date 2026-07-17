@@ -11,6 +11,27 @@ from data import (
 from assets_map import LOCAL, DL, HERO_LOCAL
 
 
+def logo_img(variant="light", cls="", alt="Boundaryline", el_id=""):
+    src = LOCAL["logo_dark"] if variant == "dark" else LOCAL["logo"]
+    id_attr = f' id="{el_id}"' if el_id else ""
+    eager = ' fetchpriority="high"' if el_id == "preloader-logo-img" else ""
+    return f'<img src="{src}" alt="{alt}" class="brand-logo {cls}"{id_attr}{eager} decoding="async">'
+
+
+def icon_svg(name):
+    icons = {
+        "trophy": """<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10.5 5.5h11v6.5a5.5 5.5 0 0 1-11 0V5.5z"/><path d="M10.5 7.5H6.8a.8.8 0 0 0-.8.8c0 2.6 1.9 4.7 4.5 5"/><path d="M21.5 7.5h3.7a.8.8 0 0 1 .8.8c0 2.6-1.9 4.7-4.5 5"/><path d="M16 17.5v3.5"/><path d="M12.5 25.5h7"/><path d="M13.5 21h5l1 4.5h-7l1-4.5z"/><path class="icon-accent" d="M14 9l1.4 1.4L18 7.8"/></svg>""",
+        "calendar": """<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7.5" width="22" height="19" rx="1.5"/><path d="M5 13h22"/><path d="M11 4.5v5"/><path d="M21 4.5v5"/><path class="icon-accent" d="M9.5 17.5h3"/><path class="icon-accent" d="M14.5 17.5h3"/><path class="icon-accent" d="M19.5 17.5h3"/><path class="icon-accent" d="M9.5 22h3"/><path d="M14.5 22h3"/></svg>""",
+        "network": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6.5" r="3"/><circle cx="6.5" cy="24" r="3"/><circle cx="25.5" cy="24" r="3"/><path d="M16 9.5v5.5"/><path d="M16 15l-7.8 6.5"/><path d="M16 15l7.8 6.5"/><circle class="icon-accent" cx="16" cy="15" r="1.2"/></svg>""",
+        "globe": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5"/><path d="M5.5 16h21"/><ellipse cx="16" cy="16" rx="4.8" ry="10.5"/><path class="icon-accent" d="M7.5 10.5c2.4 1.4 5.3 2.2 8.5 2.2s6.1-.8 8.5-2.2"/><path class="icon-accent" d="M7.5 21.5c2.4-1.4 5.3-2.2 8.5-2.2s6.1.8 8.5 2.2"/></svg>""",
+        "sun": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.2"/><path d="M16 4.5v3.2"/><path d="M16 24.3v3.2"/><path d="M4.5 16h3.2"/><path d="M24.3 16h3.2"/><path class="icon-accent" d="M7.9 7.9l2.2 2.2"/><path class="icon-accent" d="M21.9 21.9l2.2 2.2"/><path class="icon-accent" d="M24.1 7.9l-2.2 2.2"/><path class="icon-accent" d="M10.1 21.9l-2.2 2.2"/></svg>""",
+        "users": """<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="10.5" r="3.8"/><path d="M4.5 25c1.4-4.4 4.1-6.7 7.5-6.7s6.1 2.3 7.5 6.7"/><circle class="icon-accent" cx="21.5" cy="11.5" r="3"/><path class="icon-accent" d="M21 18.5c3 0 5.4 2 6.5 5.8"/></svg>""",
+        "zap": """<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M18 3.5L7.5 18.5H15l-1.5 10L24 13.5h-7.5l1.5-10z"/><path class="icon-accent" d="M23 5.5l3-1.5"/><path class="icon-accent" d="M25 9.5l2.5.5"/></svg>""",
+        "eye": """<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 16s5-8.5 13-8.5S29 16 29 16s-5 8.5-13 8.5S3 16 3 16z"/><circle cx="16" cy="16" r="4"/><circle class="icon-accent" cx="17.4" cy="14.6" r="1"/></svg>""",
+    }
+    return f'<span class="icon-draw" data-icon="{name}">{icons.get(name, icons["globe"])}</span>'
+
+
 def head(title, active="home"):
     from styles import TAILWIND_CONFIG, STYLE_BLOCK
     return f"""<!DOCTYPE html>
@@ -23,19 +44,20 @@ def head(title, active="home"):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Oswald:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
-<script>{TAILWIND_CONFIG}</script>
+<link rel="preload" as="image" href="assets/logo.png" fetchpriority="high">
 <style>{STYLE_BLOCK}</style>
 </head>
 <body class="font-sans antialiased text-white selection:bg-white selection:text-black bg-black" data-page="{active}">
 <a class="skip-link" href="#main">Skip to content</a>
 <div id="preloader" class="preloader" aria-hidden="true">
-  <div class="preloader-brand">BOUNDARYLINE</div>
+  <div class="preloader-grain" aria-hidden="true"></div>
+  <div class="preloader-inner">
+    <div class="preloader-logo-wrap" id="preloader-logo-wrap">
+      {logo_img("light", "preloader-logo-img", "Boundaryline", "preloader-logo-img")}
+    </div>
+    <span class="preloader-rule" id="preloader-rule" aria-hidden="true"></span>
+    <p class="preloader-tag" id="preloader-tag">cross every boundary</p>
+  </div>
   <div id="preloader-bar" class="preloader-bar"></div>
 </div>
 <div class="cursor-dot hidden lg:block" aria-hidden="true"></div>
@@ -59,7 +81,9 @@ def nav(active="home"):
     mobile = "".join(f'<a href="{h}" class="hover-target py-1">{lab}</a>' for h, lab, k in links)
     return f"""
 <nav id="navbar">
-  <a href="index.html" class="nav-brand h-display text-xl md:text-2xl tracking-wider hover-target">BOUNDARYLINE</a>
+  <a href="index.html" class="nav-brand hover-target inline-flex items-center" aria-label="Boundaryline home">
+    {logo_img("light", "nav-logo")}
+  </a>
   <div class="nav-links t-mono">{desktop}</div>
   <div class="nav-actions">
     <a href="contact.html" class="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-5 hover-target">CONTACT US</a>
@@ -91,7 +115,7 @@ def hero():
     return f"""
 <section id="hero" class="hero">
   <div class="hero-bg">
-    <img src="{hero_img}" alt="Boundaryline cricket" class="img-mono" data-speed="0.15">
+    <img src="{hero_img}" alt="Boundaryline cricket" class="img-mono">
   </div>
   <div class="hero-marquee-layer" aria-hidden="true">
     {_marquee_row(r1, "fwd", "52")}
@@ -105,7 +129,10 @@ def hero():
       <div class="hero-grid">
         <div>
           <p class="hero-kicker t-mono">CROSS EVERY BOUNDARY.</p>
-          <h1 class="h-display hero-title" data-split="chars">BOUNDARYLINE</h1>
+          <h1 class="h-display hero-title">
+            <span class="hero-word" data-split="chars">BOUNDARY</span>
+            <span class="hero-word" data-split="chars">LINE</span>
+          </h1>
           <p class="hero-sub">{HERO_SUB.upper()}</p>
           <div class="hero-ctas">
             <a href="contact.html" class="btn btn-primary hover-target group">GET STARTED <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
@@ -131,10 +158,10 @@ def hero():
 
 def why():
     cards = "".join(f"""
-      <div class="border-t border-black/10 pt-5">
+      <div class="border-t border-black/10 pt-5 why-card">
+        <div class="why-feature-icon">{icon_svg(icon)}</div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
           <span class="t-mono text-[10px]" style="letter-spacing:.18em">{num}</span>
-          <i data-lucide="{icon}" class="w-5 h-5"></i>
         </div>
         <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">{title}</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">{copy}</p>
@@ -167,8 +194,8 @@ def vision():
     <div data-reveal data-delay="0.1">
       <p class="text-xl md:text-[1.65rem] font-light leading-[1.5] text-white/70">{VISION}</p>
     </div>
-    <div class="media-zoom h-56 md:h-72 relative" data-reveal data-delay="0.15">
-      <img src="{LOCAL['hero_stadium']}" alt="Stadium" class="img-cover img-mono" data-speed="0.12" loading="lazy">
+    <div class="vision-frame media-zoom" data-reveal data-delay="0.15">
+      <img src="{LOCAL['vision_match']}" alt="Grassroots cricket match in play" class="img-mono" data-speed="0.1" loading="lazy">
     </div>
   </div>
 </section>
@@ -178,7 +205,7 @@ def vision():
 def mission():
     cols = "".join(f"""
       <div>
-        <i data-lucide="{icon}" class="w-6 h-6 mb-6 text-pitch-gray"></i>
+        <div class="mb-6 icon-tile">{icon_svg(icon)}</div>
         <h3 class="t-mono text-xs font-bold mb-4" style="letter-spacing:.16em">{title}</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">{copy}</p>
       </div>""" for icon, title, copy in MISSION_POINTS[:3])
@@ -389,6 +416,7 @@ def footer():
   <div class="site-wrap relative z-10">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20" data-reveal>
       <div class="md:col-span-6">
+        <div class="mb-6" data-reveal>{logo_img("light", "footer-logo")}</div>
         <p class="sec-label mb-4">09</p>
         <h2 class="h-display text-5xl md:text-7xl leading-[0.85]">CROSS EVERY<br>BOUNDARY.</h2>
         <p class="t-mono text-[10px] text-white/40 mt-6" style="letter-spacing:.16em">BOUNDARYLINE © 2026. ALL RIGHTS RESERVED.</p>
@@ -446,7 +474,20 @@ def lightbox_and_wa():
 
 def page_end():
     from scripts import SCRIPT_BLOCK
-    return f"<script>{SCRIPT_BLOCK}</script>\n</body>\n</html>\n"
+    from styles import TAILWIND_CONFIG
+    # All heavy JS loads at the end of <body> so the preloader (styled by the
+    # inline <style> in <head>) paints instantly — nothing blocks first paint.
+    return f"""<script src="https://cdn.tailwindcss.com"></script>
+<script>{TAILWIND_CONFIG}</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+<script>{SCRIPT_BLOCK}</script>
+</body>
+</html>
+"""
 
 
 def page_hero_inner(num, title, subtitle=""):
@@ -557,10 +598,10 @@ def about_page_body():
       </div>""" for title, copy in SOLUTION["points"])
     why_now = "".join(f'<li class="border-t border-black/10 py-4 text-sm text-pitch-gray leading-relaxed">{p}</li>' for p in WHY_NOW)
     why_cards = "".join(f"""
-      <div class="border-t border-black/10 pt-5">
+      <div class="border-t border-black/10 pt-5 why-card">
+        <div class="why-feature-icon">{icon_svg(icon)}</div>
         <div class="flex items-center gap-3 mb-3 text-pitch-gray">
           <span class="t-mono text-[10px]" style="letter-spacing:.18em">{num}</span>
-          <i data-lucide="{icon}" class="w-5 h-5"></i>
         </div>
         <h3 class="t-mono text-xs font-bold mb-3" style="letter-spacing:.16em">{title}</h3>
         <p class="text-sm text-pitch-gray leading-relaxed">{copy}</p>

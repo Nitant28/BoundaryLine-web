@@ -7,6 +7,9 @@ LOCAL = {
     "hero_action": "assets/fotos-j5W9NJEkTF0-unsplash.jpg",
     "hero_field": "assets/moonwalkr-tquONxAKYXE-unsplash.jpg",
     "hero_player": "assets/yogendra-singh-dE3exzmYlKc-unsplash.jpg",
+    "vision_match": "assets/vision-match.jpg",
+    "logo": "assets/logo.png",
+    "logo_dark": "assets/logo-dark.png",
 }
 
 DL = {
